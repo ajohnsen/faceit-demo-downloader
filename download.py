@@ -69,13 +69,9 @@ def getMatchInfo(matchId):
     opener.addheaders = [('faceit-auth', auth), ('user-id', userid)];
     response = opener.open(matchUrl)
     data = json.loads(response.read())
-    print "######"
     dTime = datetime.datetime.strptime(data['payload']['finished_at'], '%a %b %d %H:%M:%S %Z %Y')
-
     demoUrl = data['payload']['external_matches'][0]['stats']['demo_file_url']
-    print type(data['payload']['finished_at'])
     createdAt =  time.mktime(dTime.timetuple())
-    print createdAt
     print "Match: " + matchId;
     downloadDemo(demoUrl, createdAt);
 
@@ -94,4 +90,3 @@ def getMatchHistory():
         getMatchInfo(match['matchId']);
 
 getMatchHistory()
-#getMatchHistory("https://s3.amazonaws.com/faceit-puppeteer/prod/csgo/d48ea5d4-1776-416d-b498-3b8615d7b94a/d48ea5d4-1776-416d-b498-3b8615d7b94a.dem")
