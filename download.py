@@ -1,7 +1,7 @@
 import urllib2, json, os.path, pywintypes, win32file, win32con, time, datetime
 
-auth = "ClEAHRkKAAseE1NJTBUXFAAOUVpTFBsdHkNUSBFESEtXFk4DQ10XE0ZeWkdKBUNSS0MTXg1DH1ZdWRIVQkFWTFgc"
-userid = "b2989b4b-7de7-430d-885b-c7e733ac3288"
+auth = ""
+userid = ""
 
 
 def changeFileCreationTime(fname, newtime):
