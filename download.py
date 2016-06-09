@@ -76,7 +76,7 @@ def getMatchInfo(matchId):
 
 
 def getMatchHistory():
-    matchesUrl = "https://stats.faceit.com/api/v1/stats/time/users/" + userid + "/games/csgo?page=0&size=1000"
+    matchesUrl = "https://api-gateway.faceit.com/stats/api/v1/stats/time/users/" + userid + "/games/csgo?page=0&size=1000"
     opener = urllib2.build_opener();
     opener.addheaders = [('faceit-auth', auth), ('user-id', userid)];
     response = opener.open(matchesUrl)
