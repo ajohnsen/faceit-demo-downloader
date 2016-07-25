@@ -1,6 +1,8 @@
-import urllib2, json, os.path, pywintypes, win32file, win32con, time, datetime
+import urllib2, json, os.path, pywintypes, win32file, win32con, time, datetime, gzip
 
+# Put your faceit auth here
 auth = ""
+# This is the userid for the user you want to download demos from.
 userid = ""
 
 
@@ -20,11 +22,16 @@ def changeFileCreationTime(fname, newtime):
 def downloadDemo(demoUrl, time):
     downloadUrl(demoUrl, time);
 
+def getDemoFilename(file):
+    if (file.endswith('.gz')):
+        return file.replace('.gz', '');
+    return file;
+
 def downloadUrl(url, time):
     file_name = url.split('/')[-1]
-    if os.path.isfile(file_name):
+    if os.path.isfile(getDemoFilename(file_name)):
         print file_name + " exists, skipping download";
-        changeFileCreationTime(file_name, time)
+        changeFileCreationTime(getDemoFilename(file_name), time)
         return;
 
     try:
@@ -58,7 +65,17 @@ def downloadUrl(url, time):
             print status,
 
         f.close()
-        changeFileCreationTime(file_name, time)
+
+        if (file_name.endswith('.gz')):
+            inF = gzip.open(file_name, 'rb')
+            outF = open(file_name.replace('.gz', ''), 'wb')
+            outF.write( inF.read() )
+            inF.close()
+            outF.close()
+
+            # Delete gzip file
+            os.remove(file_name)
+        changeFileCreationTime(getDemoFilename(file_name), time)
 
 
 
