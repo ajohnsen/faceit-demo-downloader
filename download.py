@@ -1,4 +1,4 @@
-import urllib2, json, os.path, pywintypes, win32file, win32con, time, datetime, gzip
+import urllib2, json, os.path, os, pywintypes, win32file, win32con, time, datetime, gzip
 
 # Put your faceit auth here
 auth = ""
@@ -7,7 +7,7 @@ userid = ""
 
 
 def changeFileCreationTime(fname, newtime):
-    print "Setting creation date: " + str(newtime)
+    print "Setting file date to: " + str(newtime)
     wintime = pywintypes.Time(newtime)
     winfile = win32file.CreateFile(
         fname, win32con.GENERIC_WRITE,
@@ -18,6 +18,9 @@ def changeFileCreationTime(fname, newtime):
     win32file.SetFileTime(winfile, wintime, None, None)
 
     winfile.close()
+
+    # Set modified and accesstime
+    os.utime(fname, (newtime, newtime))
 
 def downloadDemo(demoUrl, time):
     downloadUrl(demoUrl, time);
